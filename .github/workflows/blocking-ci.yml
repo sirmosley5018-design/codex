@@ -3,9 +3,17 @@ name: blocking-ci
 # This is the single entrypoint for checks that block a PR merge. It also runs
 # after pushes to main so the same check family stays grouped in the Actions UI.
 on:
+  workflow_dispatch:
   pull_request: {}
   push:
     branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blocking-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   # Keep reusable workflow calls alphabetized. The `required` job below is the

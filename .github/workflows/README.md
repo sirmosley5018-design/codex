@@ -4,6 +4,10 @@ The workflows in this directory are split so that pull requests get fast, review
 
 ## Pull Requests
 
+Forks run the same blocking checks without depending on artifacts or credentials
+owned by `openai/codex`. Maintainers can also start `blocking-ci` manually from
+the Actions page when validating repository configuration.
+
 - `bazel.yml` is the main pre-merge verification path for Rust code.
   It runs Bazel `test` and Bazel `clippy` on the supported Bazel targets,
   including the generated Rust test binaries needed to lint inline `#[cfg(test)]`
