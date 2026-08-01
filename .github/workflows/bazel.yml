@@ -137,8 +137,8 @@ jobs:
           - 2
           - 3
           - 4
-    runs-on: windows-latest
-    name: Bazel test on windows-latest for x86_64-pc-windows-gnullvm shard ${{ matrix.shard }}/4
+    runs-on: windows-2022
+    name: Bazel test on windows-2022 for x86_64-pc-windows-gnullvm shard ${{ matrix.shard }}/4
     environment:
       name: bazel
       deployment: false
@@ -253,8 +253,8 @@ jobs:
     # it a larger timeout.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     timeout-minutes: 40
-    runs-on: windows-latest
-    name: Bazel test on windows-latest for x86_64-pc-windows-msvc (native main)
+    runs-on: windows-2022
+    name: Bazel test on windows-2022 for x86_64-pc-windows-msvc (native main)
     environment:
       name: bazel
       deployment: false
@@ -337,7 +337,7 @@ jobs:
           # Bazel-native lint signal on the same Windows toolchain as tests.
           - os: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
-          - os: windows-latest
+          - os: windows-2022
             target: x86_64-pc-windows-gnullvm
     runs-on: ${{ matrix.runs_on || matrix.os }}
     name: Bazel clippy on ${{ matrix.os }} for ${{ matrix.target }}
@@ -432,7 +432,7 @@ jobs:
         include:
           - os: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
-          - os: windows-latest
+          - os: windows-2022
             target: x86_64-pc-windows-gnullvm
     runs-on: ${{ matrix.runs_on || matrix.os }}
     name: Verify release build on ${{ matrix.os }} for ${{ matrix.target }}
