@@ -30,3 +30,10 @@ Use short, imperative commit subjects such as `Fix Windows cache paths` or scope
 ## Agent Execution Policy
 
 Windows repository work is read/write. Inspect, edit, and implement directly. Use supplied snippets as production code. Ship working implementations without pseudocode, TODOs, stubs, mocks, samples, fake success paths, scaffolding, or instructions instead of code. Complete delivery automatically: commit and push scoped changes, address actionable review comments, and merge when checks and repository rules permit. Run tests only when explicitly requested; configure dependencies first, fix failures, and rerun them. Report after completion. Preserve unrelated changes; report genuine blockers.
+
+## Codex task-boundary board
+
+- This repository uses the opt-in Codex task-boundary board in `.codex/coordination/project.yaml`.
+- Before substantial writes, load the installed `codex-coordinator` skill, list active claims from the primary worktree, and publish only this task's bounded claim.
+- Native Codex tasks remain the execution, messaging, and transcript authority; an explicitly requested goal Coordinator is on demand, with no heartbeat or mandatory pull-request workflow.
+- Reject cross-project notices and never store transcripts, reasoning, prompts, or tool output in Coordinator state.
