@@ -314,9 +314,15 @@ fi
 
 if [[ "${RUNNER_OS:-}" == "Windows" && $windows_cross_compile -eq 1 && -z "${BUILDBUDDY_API_KEY:-}" ]]; then
   # The Windows cross-compile config depends on authenticated remote
-  # execution. When credentials are unavailable, keep the local build shape
-  # and its lower concurrency cap.
-  post_config_bazel_args+=(--jobs=8)
+  # execution. When credentials are unavailable, keep the local build shape,
+  # map gnullvm tests onto the MSVC execution platform, and retain the lower
+  # concurrency cap. Switching ci_config to ci-windows above drops the custom
+  # test toolchain that ci-windows-cross normally registers.
+  post_config_bazel_args+=(
+    --extra_execution_platforms=//:windows_x86_64_msvc
+    --extra_toolchains=//:windows_gnullvm_tests_on_msvc_host_toolchain
+    --jobs=8
+  )
 fi
 
 if [[ -n "${BAZEL_REPO_CONTENTS_CACHE:-}" ]]; then
