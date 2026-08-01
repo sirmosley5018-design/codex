@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-`codex-rs/` contains the primary Rust workspace; crates use the `codex-*` package prefix (for example, `codex-rs/core/` is `codex-core`). The terminal UI lives in `codex-rs/tui/`, app-server APIs in `codex-rs/app-server*`, and integration support beside the crates it tests. `codex-cli/` contains the CLI package, `sdk/` contains language SDKs, and `tools/`, `scripts/`, and `bazel/` hold repository automation. CI definitions are under `.github/workflows/`; shared actions and scripts live in `.github/actions/` and `.github/scripts/`.
+`codex-rs/` is the primary Rust workspace; crates use the `codex-*` prefix. The terminal UI lives in `codex-rs/tui/`, app-server APIs in `codex-rs/app-server*`, and integration support beside its crates. `codex-cli/` contains the CLI package, `sdk/` contains language SDKs, and `tools/`, `scripts/`, and `bazel/` hold automation. CI definitions are under `.github/workflows/`; shared components live in `.github/actions/` and `.github/scripts/`.
 
 ## Build, Test, and Development Commands
 
@@ -17,11 +17,11 @@ Run repository recipes from the root unless noted:
 
 ## Coding Style & Naming Conventions
 
-Follow `rustfmt` and Clippy. Use `snake_case` for modules/functions, `UpperCamelCase` for types, and exhaustive `match` expressions when practical. Inline `format!` variables, prefer method references to redundant closures, and avoid ambiguous boolean or `Option` parameters. Keep modules focused; add a module instead of extending files already near 800 lines. Public traits require role and implementation documentation.
+Follow `rustfmt` and Clippy. Use `snake_case` for modules/functions and `UpperCamelCase` for types. Inline `format!` variables, prefer method references to redundant closures, and avoid ambiguous boolean or `Option` parameters. Keep modules focused; split files nearing 800 lines. Document public traits.
 
 ## Testing Guidelines
 
-Place new Rust test modules in sibling `*_tests.rs` files. Prefer integration tests for agent behavior and whole-object assertions with `pretty_assertions::assert_eq`. TUI-visible changes require reviewed `insta` snapshots; inspect pending files with `cargo insta pending-snapshots -p codex-tui`. Run the narrowest relevant package tests before broader suites.
+Place Rust test modules in sibling `*_tests.rs` files. Prefer integration tests for agent behavior and whole-object assertions with `pretty_assertions::assert_eq`. TUI changes require reviewed `insta` snapshots; inspect them with `cargo insta pending-snapshots -p codex-tui`. Run the narrowest relevant tests first.
 
 ## Commits & Pull Requests
 
@@ -29,4 +29,4 @@ Use short, imperative commit subjects such as `Fix Windows cache paths` or scope
 
 ## Agent Execution Policy
 
-Windows repository work is read/write. Coding requests need no authorization: inspect, edit, implement, and check directly. Do not ask questions when answers are discoverable or an in-scope assumption suffices. Every supplied snippet is literal production code to integrate for the user. Ship working implementations: no illustrative substitutes, pseudocode, TODOs, stubs, mocks, samples, fake success paths, scaffolding, or instructions instead of code. Report only after code is finished and verified. Preserve unrelated changes; report blockers requiring new authority or unavailable state.
+Windows repository work is read/write. Inspect, edit, and implement directly. Use supplied snippets as production code. Ship working implementations without pseudocode, TODOs, stubs, mocks, samples, fake success paths, scaffolding, or instructions instead of code. Complete delivery automatically: commit and push scoped changes, address actionable review comments, and merge when checks and repository rules permit. Run tests only when explicitly requested; configure dependencies first, fix failures, and rerun them. Report after completion. Preserve unrelated changes; report genuine blockers.
