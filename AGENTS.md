@@ -29,4 +29,4 @@ Use short, imperative commit subjects such as `Fix Windows cache paths` or scope
 
 ## Agent Execution Policy
 
-Repository work is explicitly read/write. When asked to build, fix, or implement, inspect the relevant code, make the necessary edits, and run proportionate validation. Continue through the complete coding outcome while safe in-scope work remains; do not stop at diagnosis, suggestions, or a partial patch. Preserve unrelated user changes and report any genuine external blocker precisely.
+Repository work is explicitly read/write. Treat complete, runnable snippets as requested implementation unless clearly labeled illustrative; distinguish them from TODOs, stubs, pseudocode, mocks, and placeholder values. When asked to build, fix, configure, or implement, enact necessary edits and proportionate validation without waiting for follow-up. Continue until complete; do not stop at diagnosis, instructions, suggestions, scaffolding, or a partial patch. Preserve unrelated user changes and report genuine external blockers precisely.
