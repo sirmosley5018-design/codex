@@ -1,2 +1,9 @@
 codex-rs/app-server-protocol/schema/** linguist-generated
 codex-rs/hooks/schema/generated/** linguist-generated
+
+# Keep formatter-managed source stable on Windows. Git's system-wide
+# core.autocrlf setting must not rewrite these files to CRLF.
+*.bazel text eol=lf
+*.bzl text eol=lf
+*.MODULE.bazel text eol=lf
+justfile text eol=lf
