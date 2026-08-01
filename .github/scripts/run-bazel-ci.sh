@@ -283,10 +283,14 @@ if [[ "${RUNNER_OS:-}" == "Windows" && $windows_msvc_host_platform -eq 1 ]]; the
     post_config_bazel_args+=("--host_platform=//:local_windows_msvc")
   fi
   if [[ $has_target_platform_override -eq 0 ]]; then
-    # Keep the target ABI aligned with the MSVC exec toolchain. Leaving the
-    # target on the default gnullvm platform makes rustc combine MSVC linker
-    # arguments with the hermetic GNU-mode clang++ driver.
-    post_config_bazel_args+=("--platforms=//:local_windows_msvc")
+    if [[ $windows_cross_compile -eq 1 ]]; then
+      # Build local fallback targets with gnullvm while host tools use MSVC.
+      # Mixing MSVC Rust with MinGW native archives leaves __mingw_* unresolved.
+      post_config_bazel_args+=("--platforms=//:local_windows")
+    else
+      # Native Windows callers that omit a target override stay fully MSVC.
+      post_config_bazel_args+=("--platforms=//:local_windows_msvc")
+    fi
   fi
 fi
 
