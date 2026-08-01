@@ -225,7 +225,9 @@ jobs:
         argument_comment_lint_package,
         argument_comment_lint_prebuilt,
       ]
-    if: always()
+    # A superseded workflow is not a Rust failure. Preserve cancellation at the
+    # workflow level instead of starting this fan-in job and reporting red.
+    if: always() && !cancelled()
     runs-on: ubuntu-24.04
     steps:
       - name: Summarize

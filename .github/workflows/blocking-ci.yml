@@ -12,8 +12,10 @@ permissions:
   contents: read
 
 concurrency:
-  group: blocking-ci-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # Cancel superseded PR runs, but keep every main run isolated. In particular,
+  # rerunning an older main commit must not displace validation of current main.
+  group: blocking-ci-${{ github.event.pull_request.number || github.ref }}${{ github.ref_name == 'main' && format('-{0}', github.run_id) || '' }}
+  cancel-in-progress: ${{ github.ref_name != 'main' }}
 
 jobs:
   # Keep reusable workflow calls alphabetized. The `required` job below is the
@@ -57,7 +59,7 @@ jobs:
     name: CI required
     # Without `always()`, GitHub skips this job after a failed dependency and a
     # required check can appear successful instead of reporting the failure.
-    if: ${{ always() }}
+    if: ${{ always() && !cancelled() }}
     needs:
       - bazel
       - blob-size-policy
