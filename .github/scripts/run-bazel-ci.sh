@@ -265,10 +265,13 @@ fi
 post_config_bazel_args=()
 if [[ "${RUNNER_OS:-}" == "Windows" && $windows_msvc_host_platform -eq 1 ]]; then
   has_host_platform_override=0
+  has_target_platform_override=0
   for arg in "${bazel_args[@]}"; do
     if [[ "$arg" == --host_platform=* ]]; then
       has_host_platform_override=1
-      break
+    fi
+    if [[ "$arg" == --platforms=* ]]; then
+      has_target_platform_override=1
     fi
   done
 
@@ -278,6 +281,12 @@ if [[ "${RUNNER_OS:-}" == "Windows" && $windows_msvc_host_platform -eq 1 ]]; the
     # Callers that need a different Windows target platform should pass an
     # explicit `--platforms=...` flag.
     post_config_bazel_args+=("--host_platform=//:local_windows_msvc")
+  fi
+  if [[ $has_target_platform_override -eq 0 ]]; then
+    # Keep the target ABI aligned with the MSVC exec toolchain. Leaving the
+    # target on the default gnullvm platform makes rustc combine MSVC linker
+    # arguments with the hermetic GNU-mode clang++ driver.
+    post_config_bazel_args+=("--platforms=//:local_windows_msvc")
   fi
 fi
 
