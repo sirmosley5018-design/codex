@@ -109,6 +109,9 @@ rules_rust.patch(
         # Keep direct Windows/MSVC links compatible with hermetic LLVM's
         # non-.lib runtime artifacts.
         "//patches:rules_rust_windows_msvc_direct_link_args.patch",
+        # Keep MSVC Rust links on the native direct linker even when the
+        # hermetic C++ toolchain offers GNU-mode clang++.
+        "//patches:rules_rust_windows_msvc_linker_selection.patch",
         # Skip transient native-Windows linker outputs while consolidating
         # dependency search paths.
         "//patches:rules_rust_windows_process_wrapper_skip_temp_outputs.patch",

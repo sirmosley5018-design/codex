@@ -1,0 +1,17 @@
+--- a/rust/private/rustc.bzl
++++ b/rust/private/rustc.bzl
+@@ -438,4 +438,13 @@
+     use_bpf_linker = toolchain.target_arch in ("bpfeb", "bpfel") and toolchain.linker
+-    if not ld or toolchain.linker_preference == "rust" or use_bpf_linker:
++    # An MSVC Rust toolchain can inherit GNU-mode clang++ from the hermetic C++
++    # toolchain. Force MSVC targets through their native direct linker so rustc
++    # does not combine MSVC arguments with the GNU driver.
++    use_windows_rust_linker = (
++        toolchain.target_os == "windows" and
++        toolchain.target_abi == "msvc" and
++        toolchain.linker != None
++    )
++
++    if not ld or toolchain.linker_preference == "rust" or use_bpf_linker or use_windows_rust_linker:
+         ld = toolchain.linker.path
+         ld_is_direct_driver = toolchain.linker_type == "direct"
